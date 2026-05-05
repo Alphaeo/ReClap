@@ -1,9 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Space_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"], display: "swap" });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
+const cormorant = Cormorant_Garamond({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const spaceMono = Space_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://re-clap.vercel.app";
 
@@ -31,8 +49,7 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
-  icons: { icon: "/favicon.ico", apple: "/apple-icon.png" },
-  manifest: "/manifest.json",
+  icons: { icon: "/favicon.ico" },
 };
 
 export const viewport: Viewport = {
@@ -43,8 +60,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background text-foreground">{children}</body>
+    <html lang="fr" className={`${cormorant.variable} ${spaceMono.variable} ${outfit.variable} dark h-full`}>
+      <body className="min-h-full flex flex-col bg-background text-foreground antialiased grain">
+        {children}
+      </body>
     </html>
   );
 }

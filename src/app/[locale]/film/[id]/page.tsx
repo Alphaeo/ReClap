@@ -148,29 +148,30 @@ export default async function FilmPage({ params }: { params: Promise<{ locale: s
         <NavBar locale={l} />
 
         {/* Hero */}
-        <section className="px-6 pt-24 pb-8 max-w-7xl mx-auto w-full">
-          <Link href={`/${l}`}>
-            <Button variant="ghost" size="sm" className="gap-2 mb-6">
-              <ArrowLeft className="w-4 h-4" /> {t("backToSearch")}
-            </Button>
-          </Link>
+        <section className="px-6 lg:px-12 pt-20 pb-8 max-w-7xl mx-auto w-full">
+          <div className="flex items-center gap-4 mb-8">
+            <Link href={`/${l}`} className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors tracking-widest uppercase flex items-center gap-1.5">
+              ← {t("backToSearch")}
+            </Link>
+            <div className="h-px flex-1 bg-border/30" />
+          </div>
 
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col md:flex-row gap-10">
             <div className="shrink-0">
-              <div className="w-48 md:w-56 aspect-[2/3] relative rounded-xl overflow-hidden shadow-2xl glow-red ring-1 ring-white/10">
+              <div className="w-44 md:w-52 aspect-[2/3] relative overflow-hidden shadow-2xl glow-red ring-1 ring-white/8">
                 {posterUrl ? (
                   <Image src={posterUrl} alt={movie.title} fill className="object-cover" sizes="224px" priority />
                 ) : (
                   <div className="w-full h-full bg-muted flex items-center justify-center">
-                    <Film className="w-12 h-12 text-muted-foreground" />
+                    <span className="font-display text-5xl text-muted-foreground/30">{movie.title[0]}</span>
                   </div>
                 )}
               </div>
             </div>
 
             <div className="flex flex-col gap-4 flex-1">
-              {movie.tagline && <p className="text-primary text-sm font-medium italic">{movie.tagline}</p>}
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">{movie.title}</h1>
+              {movie.tagline && <p className="font-mono text-xs text-primary/70 tracking-widest uppercase italic">{movie.tagline}</p>}
+              <h1 className="font-display font-light text-[clamp(2rem,5vw,4rem)] leading-[1] tracking-tight">{movie.title}</h1>
               {movie.original_title !== movie.title && (
                 <p className="text-muted-foreground text-sm">{movie.original_title}</p>
               )}

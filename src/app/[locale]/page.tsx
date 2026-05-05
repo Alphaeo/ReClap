@@ -1,10 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Zap, Star, TrendingUp, Film, Users, ChevronRight, Play, Clapperboard, Sparkles, BookOpen, ListVideo } from "lucide-react";
+import { Suspense } from "react";
+import { Zap, Star, TrendingUp, Film, ChevronRight, Play, Sparkles, BookOpen, ListVideo } from "lucide-react";
 import { getTrending, tmdbImage } from "@/lib/tmdb";
 import { NavBar } from "@/components/navbar";
+import { FilmCard } from "@/components/film-card";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -13,26 +12,11 @@ type Locale = "fr" | "en";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "hero" });
   const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://re-clap.vercel.app";
   return {
-    title: `ReClap — ${t("title")} ${t("titleHighlight")}`,
-    description: t("description"),
+    title: locale === "fr" ? "ReClap — Ton cinéma, réinventé" : "ReClap — Your cinema, reimagined",
     alternates: { canonical: `${base}/${locale}`, languages: { fr: `${base}/fr`, en: `${base}/en` } },
-    openGraph: { url: `${base}/${locale}`, locale: locale === "fr" ? "fr_FR" : "en_US" },
   };
-}
-
-function StarRating({ rating }: { rating: number }) {
-  const filled = Math.round(rating / 2);
-  return (
-    <div className="flex items-center gap-1">
-      {[1,2,3,4,5].map((s) => (
-        <div key={s} className={`w-2.5 h-2.5 rounded-sm transition-colors ${s <= filled ? "bg-primary" : "bg-white/10"}`} />
-      ))}
-      <span className="text-xs text-muted-foreground ml-1.5 tabular-nums">{(rating / 2).toFixed(1)}</span>
-    </div>
-  );
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
@@ -54,14 +38,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const heroBackdrop = tmdbImage(heroFilm?.backdrop_path ?? null, "original");
 
   const FEATURES = [
-    { icon: Zap, title: tFeatures("fast.title"), desc: tFeatures("fast.description"), delay: "delay-100" },
-    { icon: Star, title: tFeatures("facts.title"), desc: tFeatures("facts.description"), delay: "delay-200" },
-    { icon: TrendingUp, title: tFeatures("stats.title"), desc: tFeatures("stats.description"), delay: "delay-300" },
-    { icon: Film, title: tFeatures("tracker.title"), desc: tFeatures("tracker.description"), delay: "delay-400" },
+    { icon: Zap, num: "01", title: tFeatures("fast.title"), desc: tFeatures("fast.description") },
+    { icon: Star, num: "02", title: tFeatures("facts.title"), desc: tFeatures("facts.description") },
+    { icon: TrendingUp, num: "03", title: tFeatures("stats.title"), desc: tFeatures("stats.description") },
+    { icon: Film, num: "04", title: tFeatures("tracker.title"), desc: tFeatures("tracker.description") },
   ];
 
   const NAV_FEATURES = [
-    { href: `/${l}/playlists`, icon: Sparkles, label: l === "fr" ? "Playlists" : "Playlists", desc: l === "fr" ? "8 sélections curatoriales" : "8 curated selections" },
+    { href: `/${l}/playlists`, icon: Sparkles, label: "Playlists", desc: l === "fr" ? "8 sélections curatoriales" : "8 curated selections" },
     { href: `/${l}/learn`, icon: BookOpen, label: l === "fr" ? "Apprendre" : "Learn", desc: l === "fr" ? "Histoire & techniques" : "History & techniques" },
     { href: `/${l}/pelicules`, icon: ListVideo, label: "Pelicules", desc: l === "fr" ? "Listes collaboratives" : "Collaborative lists" },
   ];
@@ -70,209 +54,215 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <div className="flex flex-col min-h-screen">
       <NavBar locale={l} />
 
-      {/* ─── Hero ─────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Cinematic backdrop */}
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex flex-col overflow-hidden">
+        {/* Full-bleed backdrop */}
         {heroBackdrop && (
           <div className="absolute inset-0 z-0">
-            <Image src={heroBackdrop} alt="" fill className="object-cover opacity-[0.12] scale-105" priority sizes="100vw" />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+            <Image src={heroBackdrop} alt="" fill className="object-cover opacity-[0.13]" priority sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
           </div>
         )}
 
-        {/* Red ambient glow */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-primary/6 blur-[140px]" />
+        {/* Vertical red accent line */}
+        <div className="absolute left-0 top-0 bottom-0 w-[3px] z-10 hidden lg:block">
+          <div className="animate-fade-up delay-500 h-full bg-gradient-to-b from-transparent via-primary to-transparent opacity-60" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 w-full">
-          <div className="max-w-2xl">
-            <div className="animate-fade-up">
-              <Badge variant="outline" className="mb-6 border-primary/40 text-primary bg-primary/5 px-3 py-1.5 text-xs font-medium">
-                <Clapperboard className="w-3 h-3 mr-1.5" />
-                {tHero("badge")}
-              </Badge>
-            </div>
+        <div className="relative z-10 flex-1 max-w-7xl mx-auto px-6 lg:px-12 w-full pt-28 pb-16 flex items-center">
+          <div className="w-full grid lg:grid-cols-[1fr_auto] gap-16 items-center">
 
-            <h1 className="animate-fade-up delay-100 text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.02] mb-6">
-              {tHero("title")}{" "}
-              <span className="text-gradient-red">{tHero("titleHighlight")}</span>.
-            </h1>
-
-            <p className="animate-fade-up delay-200 text-lg text-muted-foreground max-w-lg mb-10 leading-relaxed">
-              {tHero("description")}
-            </p>
-
-            <div className="animate-fade-up delay-300 flex flex-wrap items-center gap-3">
-              <Link href={`/${l}/auth/signup`}>
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 px-8 text-base glow-red font-semibold">
-                  {tHero("cta")} <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
-              </Link>
-              <Link href={`/${l}/search`}>
-                <Button size="lg" variant="outline" className="h-12 px-8 text-base border-white/10 hover:bg-white/5 hover:border-white/20">
-                  <Play className="w-4 h-4 mr-2 fill-current" />
-                  {tHero("demo")}
-                </Button>
-              </Link>
-            </div>
-
-            <div className="animate-fade-up delay-400 flex items-center gap-6 mt-8 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-1.5">
-                  {["#e11d48","#f97316","#8b5cf6"].map((c,i) => (
-                    <div key={i} className="w-6 h-6 rounded-full ring-2 ring-background" style={{ background: c }} />
-                  ))}
-                </div>
-                <span>{tHero("social", { count: 12 })}</span>
+            {/* Left: Copy */}
+            <div className="max-w-2xl">
+              {/* Frame counter */}
+              <div className="animate-fade-up flex items-center gap-4 mb-8">
+                <span className="font-mono text-xs text-primary tracking-[0.2em]">001</span>
+                <div className="h-px flex-1 max-w-[60px] bg-primary/40" />
+                <span className="font-mono text-xs text-muted-foreground tracking-[0.15em] uppercase">
+                  {l === "fr" ? "Cinéma · Culture · Communauté" : "Cinema · Culture · Community"}
+                </span>
               </div>
-              <span className="hidden sm:block">·</span>
-              <span className="hidden sm:block">{tHero("free")}</span>
-            </div>
-          </div>
 
-          {/* Hero film card preview */}
-          {heroFilm && (
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden lg:block animate-fade-in delay-500">
-              <Link href={`/${l}/film/${heroFilm.id}`}>
-                <div className="group relative w-48 aspect-[2/3] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 hover:ring-primary/50 transition-all duration-300 hover:scale-105">
-                  {tmdbImage(heroFilm.poster_path ?? null, "w342") && (
-                    <Image src={tmdbImage(heroFilm.poster_path ?? null, "w342")!} alt={heroFilm.title} fill className="object-cover" sizes="192px" priority />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className="text-white text-xs font-semibold line-clamp-2 group-hover:text-primary transition-colors">{heroFilm.title}</p>
-                    <p className="text-white/60 text-xs mt-0.5">{heroFilm.release_date?.slice(0,4)}</p>
+              {/* Main headline */}
+              <div className="animate-fade-up delay-150 mb-6">
+                <h1 className="font-display font-light text-[clamp(3.5rem,8vw,7rem)] leading-[0.92] tracking-tight">
+                  <span className="block text-foreground/90">{tHero("title")}</span>
+                  <span className="block italic text-gradient-red">{tHero("titleHighlight")}.</span>
+                </h1>
+              </div>
+
+              {/* Red rule */}
+              <div className="animate-fade-up delay-250 red-rule mb-6 max-w-xs" />
+
+              <p className="animate-fade-up delay-250 font-sans text-base text-muted-foreground max-w-md leading-relaxed mb-10">
+                {tHero("description")}
+              </p>
+
+              {/* CTA group */}
+              <div className="animate-fade-up delay-350 flex flex-wrap items-center gap-4 mb-12">
+                <Link href={`/${l}/auth/signup`}>
+                  <button className="group relative h-12 px-8 bg-primary text-primary-foreground font-sans text-sm font-semibold glow-red overflow-hidden transition-all hover:glow-red-lg">
+                    <span className="relative z-10 flex items-center gap-2">
+                      {tHero("cta")}
+                      <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </button>
+                </Link>
+                <Link href={`/${l}/search`}>
+                  <button className="h-12 px-8 border border-border/40 font-sans text-sm text-muted-foreground flex items-center gap-2 hover:text-foreground hover:border-border transition-colors">
+                    <Play className="w-3.5 h-3.5 fill-current" />
+                    {tHero("demo")}
+                  </button>
+                </Link>
+              </div>
+
+              {/* Stats row */}
+              <div className="animate-fade-up delay-500 flex items-center gap-6">
+                {[
+                  { num: "12k", label: l === "fr" ? "cinéphiles" : "film lovers" },
+                  { num: "∞", label: l === "fr" ? "films tracés" : "films tracked" },
+                  { num: "100%", label: l === "fr" ? "gratuit" : "free" },
+                ].map((s, i) => (
+                  <div key={i} className="flex items-baseline gap-2">
+                    <span className="font-display font-bold text-2xl text-foreground">{s.num}</span>
+                    <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">{s.label}</span>
+                    {i < 2 && <span className="text-border ml-2">·</span>}
                   </div>
-                  <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs text-white flex items-center gap-1">
-                    <Star className="w-2.5 h-2.5 fill-primary text-primary" />
-                    {heroFilm.vote_average.toFixed(1)}
-                  </div>
-                </div>
-              </Link>
-              <p className="text-xs text-muted-foreground text-center mt-2">{l === "fr" ? "Tendance" : "Trending"} #1</p>
+                ))}
+              </div>
             </div>
-          )}
+
+            {/* Right: Hero film card — tilted, floating */}
+            {heroFilm && (
+              <div className="hidden lg:block animate-fade-in delay-700 relative">
+                <div className="relative" style={{ transform: "rotate(-4deg)" }}>
+                  <Link href={`/${l}/film/${heroFilm.id}`}>
+                    <div className="w-52 aspect-[2/3] relative overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.7)] ring-1 ring-white/10 hover:ring-primary/40 transition-all duration-500 hover:rotate-0 hover:scale-105" style={{ transition: "all 0.4s cubic-bezier(.22,1,.36,1)" }}>
+                      {tmdbImage(heroFilm.poster_path, "w342") && (
+                        <Image src={tmdbImage(heroFilm.poster_path, "w342")!} alt={heroFilm.title} fill className="object-cover" sizes="208px" priority />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="font-mono text-[9px] text-primary/80 tracking-widest uppercase mb-1">
+                          {l === "fr" ? "Tendance #1" : "Trending #1"}
+                        </div>
+                        <p className="font-display text-sm text-white font-semibold leading-tight">{heroFilm.title}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <Star className="w-2.5 h-2.5 fill-primary text-primary" />
+                          <span className="font-mono text-[10px] text-white/70">{heroFilm.vote_average.toFixed(1)}</span>
+                          <span className="font-mono text-[10px] text-white/40">· {heroFilm.release_date?.slice(0,4)}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  {/* Shadow under card */}
+                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-primary/10 blur-xl rounded-full" />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* ─── Trending strip ───────────────────────────────────────────── */}
-      <section className="px-6 pb-20 max-w-7xl mx-auto w-full">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
-            {tTrending("title")}
-          </h2>
-          <Link href={`/${l}/search`}>
-            <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 text-xs h-7">
-              {tTrending("seeAll")} <ChevronRight className="w-3 h-3 ml-0.5" />
-            </Button>
+      {/* ── TRENDING ─────────────────────────────────────────────── */}
+      <section className="px-6 lg:px-12 py-20 max-w-7xl mx-auto w-full">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <span className="section-label">002 / {tTrending("title")}</span>
+          </div>
+          <Link href={`/${l}/search`} className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors tracking-widest uppercase flex items-center gap-1.5">
+            {tTrending("seeAll")} →
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
           {trending
             ? trending.results.slice(0, 5).map((film, i) => (
-                <Link key={film.id} href={`/${l}/film/${film.id}`}>
-                  <Card className="border-border/40 bg-card/80 card-hover cursor-pointer overflow-hidden group h-full backdrop-blur-sm">
-                    <div className="relative h-52">
-                      {tmdbImage(film.poster_path ?? null, "w342") ? (
-                        <Image src={tmdbImage(film.poster_path ?? null, "w342")!} alt={film.title} fill className="object-cover" sizes="(max-width:768px) 50vw, 20vw" />
-                      ) : (
-                        <div className="h-full flex items-center justify-center bg-muted"><Film className="w-8 h-8 text-muted-foreground/40" /></div>
-                      )}
-                      <div className="absolute top-2 left-2 bg-black/70 backdrop-blur-sm rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold text-white">
-                        {i + 1}
-                      </div>
-                    </div>
-                    <CardContent className="p-3">
-                      <p className="font-medium text-sm leading-tight mb-1.5 group-hover:text-primary transition-colors line-clamp-1">{film.title}</p>
-                      <StarRating rating={film.vote_average} />
-                    </CardContent>
-                  </Card>
-                </Link>
+                <Suspense key={film.id} fallback={<div className="aspect-[2/3] bg-muted animate-pulse" />}>
+                  <FilmCard film={film} locale={l} rank={i + 1} />
+                </Suspense>
               ))
             : Array.from({length:5}).map((_,i) => (
-                <Card key={i} className="border-border/40 bg-card/50 overflow-hidden">
-                  <div className="h-52 bg-muted/50 animate-pulse" />
-                  <CardContent className="p-3 space-y-2">
-                    <div className="h-3 bg-muted/50 rounded animate-pulse w-3/4" />
-                    <div className="h-2 bg-muted/50 rounded animate-pulse w-1/2" />
-                  </CardContent>
-                </Card>
+                <div key={i} className="aspect-[2/3] bg-muted/30 animate-pulse" />
               ))}
         </div>
       </section>
 
-      {/* ─── Feature nav cards ────────────────────────────────────────── */}
-      <section className="px-6 pb-20 max-w-7xl mx-auto w-full">
-        <div className="grid sm:grid-cols-3 gap-3">
-          {NAV_FEATURES.map((f) => (
+      {/* ── FEATURE NAV CARDS ────────────────────────────────────── */}
+      <section className="px-6 lg:px-12 pb-20 max-w-7xl mx-auto w-full">
+        <div className="grid sm:grid-cols-3 gap-2">
+          {NAV_FEATURES.map((f, i) => (
             <Link key={f.href} href={f.href}>
-              <Card className="border-border/40 bg-card/60 card-hover cursor-pointer group p-5 h-full backdrop-blur-sm">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
-                  <f.icon className="w-4 h-4 text-primary" />
+              <div className="group border border-border/30 p-6 hover:border-primary/30 transition-all duration-300 hover:bg-card/50 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                <div className="flex items-start justify-between mb-4">
+                  <f.icon className="w-5 h-5 text-primary" />
+                  <span className="font-mono text-[10px] text-muted-foreground/50">{String(i+1).padStart(2,"0")}</span>
                 </div>
-                <h3 className="font-bold mb-0.5 group-hover:text-primary transition-colors">{f.label}</h3>
-                <p className="text-xs text-muted-foreground">{f.desc}</p>
-              </Card>
+                <h3 className="font-display text-xl font-semibold mb-1 group-hover:text-primary transition-colors">{f.label}</h3>
+                <p className="font-mono text-[11px] text-muted-foreground tracking-wide">{f.desc}</p>
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* ─── Features ─────────────────────────────────────────────────── */}
-      <section className="px-6 py-20 border-t border-border/30 max-w-7xl mx-auto w-full">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-black mb-3">{tFeatures("title")}</h2>
-          <p className="text-muted-foreground max-w-md mx-auto text-sm">{tFeatures("subtitle")}</p>
+      {/* ── FEATURES ─────────────────────────────────────────────── */}
+      <section className="px-6 lg:px-12 py-24 border-t border-border/20 max-w-7xl mx-auto w-full">
+        <div className="mb-16">
+          <span className="section-label block mb-4">003 / {tFeatures("title")}</span>
+          <div className="red-rule max-w-[80px]" />
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/20">
           {FEATURES.map((f) => (
-            <Card key={f.title} className={`border-border/40 bg-card/50 p-6 card-hover backdrop-blur-sm animate-fade-up ${f.delay}`}>
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4 ring-1 ring-primary/20">
-                <f.icon className="w-5 h-5 text-primary" />
-              </div>
-              <h3 className="font-bold mb-2">{f.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-            </Card>
+            <div key={f.num} className="bg-background p-8 group hover:bg-card/50 transition-colors duration-300">
+              <div className="font-mono text-4xl font-bold text-border/30 mb-6 group-hover:text-primary/20 transition-colors">{f.num}</div>
+              <f.icon className="w-5 h-5 text-primary mb-4" />
+              <h3 className="font-display text-xl font-semibold mb-3">{f.title}</h3>
+              <p className="font-sans text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* ─── CTA ──────────────────────────────────────────────────────── */}
-      <section className="px-6 py-24 border-t border-border/30">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 ring-1 ring-primary/20 flex items-center justify-center mx-auto mb-6 glow-red-lg">
-            <Clapperboard className="w-8 h-8 text-primary" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-black mb-4 leading-tight">
-            {tCta("title")}{" "}
-            <span className="text-gradient-red">{tCta("titleHighlight")}</span>
+      {/* ── CTA ──────────────────────────────────────────────────── */}
+      <section className="relative px-6 lg:px-12 py-32 overflow-hidden border-t border-border/20">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-primary/5 blur-[100px]" />
+        </div>
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <span className="section-label block mb-8">004 / {l === "fr" ? "Rejoindre" : "Join"}</span>
+          <h2 className="font-display font-light text-[clamp(2.5rem,5vw,5rem)] leading-[0.95] tracking-tight mb-4">
+            {tCta("title")}
+            <br />
+            <span className="italic text-gradient-red">{tCta("titleHighlight")}</span>
           </h2>
-          <p className="text-muted-foreground mb-8 text-sm">{tCta("description")}</p>
+          <div className="red-rule max-w-[60px] mx-auto my-8" />
+          <p className="font-mono text-xs text-muted-foreground tracking-widest uppercase mb-10">{tCta("description")}</p>
           <Link href={`/${l}/auth/signup`}>
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 px-10 text-base glow-red font-semibold">
-              {tCta("button")} <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
+            <button className="group h-14 px-12 bg-primary text-primary-foreground font-sans font-semibold text-base glow-red hover:glow-red-lg transition-all duration-300 flex items-center gap-3 mx-auto">
+              {tCta("button")}
+              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </button>
           </Link>
         </div>
       </section>
 
-      {/* ─── Footer ───────────────────────────────────────────────────── */}
-      <footer className="mt-auto border-t border-border/30 px-6 py-8">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Clapperboard className="w-4 h-4 text-primary" />
-            <span className="font-bold text-foreground">ReClap</span>
-            <span>© {new Date().getFullYear()}</span>
-            <span className="hidden sm:block">·</span>
-            <span className="hidden sm:block">Powered by TMDB</span>
+      {/* ── FOOTER ───────────────────────────────────────────────── */}
+      <footer className="border-t border-border/20 px-6 lg:px-12 py-8">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <span className="font-display font-bold text-lg">ReClap</span>
+            <span className="font-mono text-[10px] text-muted-foreground/50 tracking-widest">© {new Date().getFullYear()}</span>
           </div>
-          <div className="flex gap-6">
+          <div className="flex gap-6 font-mono text-[10px] text-muted-foreground tracking-widest uppercase">
             <a href="#" className="hover:text-foreground transition-colors">{tFooter("privacy")}</a>
             <a href="#" className="hover:text-foreground transition-colors">{tFooter("terms")}</a>
-            <a href="#" className="hover:text-foreground transition-colors">{tFooter("contact")}</a>
             <Link href={`/${l}/learn`} className="hover:text-foreground transition-colors">{l === "fr" ? "Apprendre" : "Learn"}</Link>
+            <span className="text-muted-foreground/30">TMDB</span>
           </div>
         </div>
       </footer>

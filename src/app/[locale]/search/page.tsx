@@ -1,11 +1,12 @@
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { NavBar } from "@/components/navbar";
 import { searchMovies, searchPeople, searchTV, discoverMedia, TMDB_GENRES_MOVIE, TMDB_COUNTRIES, tmdbImage } from "@/lib/tmdb";
-import { Film, User, Search, Tv, Sword } from "lucide-react";
+import { Film, User, Search } from "lucide-react";
 import { SearchInput } from "./search-input";
 import { SearchFilters } from "./search-filters";
 
@@ -87,7 +88,9 @@ export default async function SearchPage({
       <NavBar locale={l} />
       <main className="flex-1 pt-24 pb-16 px-6 max-w-7xl mx-auto w-full">
         <div className="mb-6">
-          <SearchInput placeholder={t("placeholder")} />
+          <Suspense fallback={<div className="h-11 bg-card/50 animate-pulse w-full max-w-xl" />}>
+            <SearchInput placeholder={t("placeholder")} />
+          </Suspense>
         </div>
 
         {/* Type tabs */}
