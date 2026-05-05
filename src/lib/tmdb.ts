@@ -131,6 +131,72 @@ export async function searchMovies(query: string, locale: "fr" | "en" = "fr"): P
   return tmdbFetch<TmdbSearchResult>("/search/movie", { query, language: lang });
 }
 
+export async function searchTV(query: string, locale: "fr" | "en" = "fr"): Promise<{ results: { id: number; name: string; poster_path: string | null; first_air_date: string; vote_average: number }[]; total_results: number }> {
+  const lang = locale === "fr" ? "fr-FR" : "en-US";
+  return tmdbFetch("/search/tv", { query, language: lang });
+}
+
+export interface DiscoverParams {
+  type?: "movie" | "tv";
+  genreId?: string;
+  originCountry?: string;
+  year?: string;
+  sortBy?: string;
+  minVote?: string;
+  page?: string;
+}
+
+export async function discoverMedia(params: DiscoverParams, locale: "fr" | "en" = "fr"): Promise<TmdbSearchResult & { results: { id: number; title?: string; name?: string; poster_path: string | null; release_date?: string; first_air_date?: string; vote_average: number; overview: string }[] }> {
+  const lang = locale === "fr" ? "fr-FR" : "en-US";
+  const endpoint = params.type === "tv" ? "/discover/tv" : "/discover/movie";
+  const p: Record<string, string> = { language: lang, page: params.page ?? "1" };
+  if (params.genreId) p.with_genres = params.genreId;
+  if (params.originCountry) p.with_origin_country = params.originCountry;
+  if (params.year) {
+    if (params.type === "tv") p.first_air_date_year = params.year;
+    else p.primary_release_year = params.year;
+  }
+  if (params.sortBy) p.sort_by = params.sortBy;
+  if (params.minVote) p["vote_average.gte"] = params.minVote;
+  return tmdbFetch(endpoint, p);
+}
+
+export const TMDB_GENRES_MOVIE = [
+  { id: "28", fr: "Action", en: "Action" },
+  { id: "12", fr: "Aventure", en: "Adventure" },
+  { id: "16", fr: "Animation", en: "Animation" },
+  { id: "35", fr: "Comédie", en: "Comedy" },
+  { id: "80", fr: "Crime", en: "Crime" },
+  { id: "99", fr: "Documentaire", en: "Documentary" },
+  { id: "18", fr: "Drame", en: "Drama" },
+  { id: "10751", fr: "Famille", en: "Family" },
+  { id: "14", fr: "Fantastique", en: "Fantasy" },
+  { id: "36", fr: "Histoire", en: "History" },
+  { id: "27", fr: "Horreur", en: "Horror" },
+  { id: "10402", fr: "Musique", en: "Music" },
+  { id: "9648", fr: "Mystère", en: "Mystery" },
+  { id: "10749", fr: "Romance", en: "Romance" },
+  { id: "878", fr: "Science-fiction", en: "Sci-Fi" },
+  { id: "53", fr: "Thriller", en: "Thriller" },
+  { id: "10752", fr: "Guerre", en: "War" },
+  { id: "37", fr: "Western", en: "Western" },
+];
+
+export const TMDB_COUNTRIES = [
+  { code: "FR", fr: "France", en: "France" },
+  { code: "US", fr: "États-Unis", en: "United States" },
+  { code: "GB", fr: "Royaume-Uni", en: "United Kingdom" },
+  { code: "JP", fr: "Japon", en: "Japan" },
+  { code: "KR", fr: "Corée du Sud", en: "South Korea" },
+  { code: "IT", fr: "Italie", en: "Italy" },
+  { code: "ES", fr: "Espagne", en: "Spain" },
+  { code: "DE", fr: "Allemagne", en: "Germany" },
+  { code: "IN", fr: "Inde", en: "India" },
+  { code: "CN", fr: "Chine", en: "China" },
+  { code: "MX", fr: "Mexique", en: "Mexico" },
+  { code: "BR", fr: "Brésil", en: "Brazil" },
+];
+
 export interface TmdbPerson {
   id: number;
   name: string;

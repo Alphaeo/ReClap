@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Clapperboard, Search, LayoutDashboard, LogOut, User } from "lucide-react";
+import { Clapperboard, Search, LayoutDashboard, LogOut, BookOpen, ListVideo, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useSession, signOut } from "@/lib/auth-client";
@@ -33,11 +33,19 @@ export function NavBar({ locale }: NavBarProps) {
           <span className="text-xl font-bold tracking-tight">ReClap</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+        <nav className="hidden md:flex items-center gap-5 text-sm text-muted-foreground">
           <Link href={`/${locale}/search`} className="hover:text-foreground transition-colors flex items-center gap-1.5">
             <Search className="w-3.5 h-3.5" /> {t("discover")}
           </Link>
-          <Link href={`/${locale}/search?type=people`} className="hover:text-foreground transition-colors">{t("actors")}</Link>
+          <Link href={`/${locale}/playlists`} className="hover:text-foreground transition-colors flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" /> {locale === "fr" ? "Playlists" : "Playlists"}
+          </Link>
+          <Link href={`/${locale}/pelicules`} className="hover:text-foreground transition-colors flex items-center gap-1.5">
+            <ListVideo className="w-3.5 h-3.5" /> Pelicules
+          </Link>
+          <Link href={`/${locale}/learn`} className="hover:text-foreground transition-colors flex items-center gap-1.5">
+            <BookOpen className="w-3.5 h-3.5" /> {locale === "fr" ? "Apprendre" : "Learn"}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
