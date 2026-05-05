@@ -21,18 +21,33 @@ import { watchedFilms } from "@/lib/db/schema";
 import { eq, and, isNotNull } from "drizzle-orm";
 import { FilmActions } from "./film-actions";
 import { ArrowLeft, Star, Clock, Globe, Clapperboard, Lightbulb, Film } from "lucide-react";
+import type { Metadata } from "next";
 
 type Locale = "fr" | "en";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string; id: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; id: string }> }): Promise<Metadata> {
   const { locale, id } = await params;
+  const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://re-clap.vercel.app";
   try {
     const movie = await getMovie(Number(id), locale as Locale);
-    return { title: `${movie.title} — ReClap`, description: movie.overview?.slice(0, 160) };
+    const poster = tmdbImage(movie.poster_path, "w500");
+    return {
+      title: movie.title,
+      description: movie.overview?.slice(0, 160),
+      openGraph: {
+        title: `${movie.title} — ReClap`,
+        description: movie.overview?.slice(0, 160),
+        images: poster ? [{ url: poster, width: 500, height: 750 }] : [],
+        url: `${base}/${locale}/film/${id}`,
+      },
+      twitter: { card: "summary", title: movie.title, description: movie.overview?.slice(0, 160), images: poster ? [poster] : [] },
+    };
   } catch {
     return { title: "Film — ReClap" };
   }
 }
+
+
 
 function StarBar({ rating }: { rating: number }) {
   const pct = (rating / 10) * 100;
@@ -103,8 +118,25 @@ export default async function FilmPage({ params }: { params: Promise<{ locale: s
   const genres = movie.genres.map((g) => g.name);
   const releaseYear = movie.release_date ? Number(movie.release_date.slice(0, 4)) : undefined;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Movie",
+    name: movie.title,
+    description: movie.overview,
+    datePublished: movie.release_date,
+    image: posterUrl ?? undefined,
+    director: director ? { "@type": "Person", name: director.name } : undefined,
+    actor: topCast.slice(0, 5).map((a) => ({ "@type": "Person", name: a.name })),
+    genre: genres,
+    duration: movie.runtime ? `PT${movie.runtime}M` : undefined,
+    aggregateRating: movie.vote_count > 10
+      ? { "@type": "AggregateRating", ratingValue: movie.vote_average.toFixed(1), ratingCount: movie.vote_count, bestRating: "10", worstRating: "0" }
+      : undefined,
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {backdropUrl && (
         <div className="fixed inset-0 z-0 pointer-events-none">
           <Image src={backdropUrl} alt="" fill className="object-cover opacity-[0.07]" priority />

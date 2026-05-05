@@ -134,22 +134,62 @@
 /* ReClap custom utilities */
 @layer utilities {
   .text-gradient-red {
-    background: linear-gradient(135deg, oklch(0.65 0.22 25), oklch(0.45 0.20 15));
+    background: linear-gradient(135deg, oklch(0.68 0.22 25), oklch(0.45 0.20 15));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .glow-red {
-    box-shadow: 0 0 20px oklch(0.54 0.22 25 / 30%);
+    box-shadow: 0 0 24px oklch(0.54 0.22 25 / 35%);
+  }
+
+  .glow-red-lg {
+    box-shadow: 0 0 60px oklch(0.54 0.22 25 / 20%), 0 0 120px oklch(0.54 0.22 25 / 10%);
   }
 
   .card-hover {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.22s cubic-bezier(.22,1,.36,1), box-shadow 0.22s cubic-bezier(.22,1,.36,1);
   }
 
   .card-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px oklch(0 0 0 / 40%);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 32px oklch(0 0 0 / 50%);
   }
+
+  .animate-fade-up {
+    animation: fadeUp 0.5s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease both;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
 }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: oklch(1 0 0 / 15%); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.54 0.22 25 / 60%); }
+
+/* Selection */
+::selection { background: oklch(0.54 0.22 25 / 30%); color: oklch(0.98 0 0); }
+
+/* Focus ring */
+:focus-visible { outline: 2px solid oklch(0.54 0.22 25); outline-offset: 2px; }
