@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "discover": "Découvrir",
+    "films": "Films",
+    "actors": "Acteurs",
+    "community": "Communauté",
+    "login": "Connexion",
+    "join": "Rejoindre"
+  },
+  "hero": {
+    "badge": "Le tracker cinéma qu'on méritait",
+    "title": "Ton cinéma,",
+    "titleHighlight": "réinventé",
+    "description": "Letterboxd était bien. ReClap est mieux. Rapide, élégant, et plein de faits que tu n'aurais jamais trouvés tout seul.",
+    "cta": "Commencer gratuitement",
+    "demo": "Voir la démo",
+    "social": "Rejoins {count}k cinéphiles",
+    "free": "Gratuit pour toujours sur le plan de base"
+  },
+  "trending": {
+    "title": "Tendances cette semaine",
+    "seeAll": "Voir tout"
+  },
+  "features": {
+    "title": "Pourquoi ReClap ?",
+    "subtitle": "On n'a pas juste copié Letterboxd. On a repris la feuille blanche.",
+    "fast": {
+      "title": "Ultra-rapide",
+      "description": "Navigation instantanée. On a repensé chaque interaction pour que rien ne t'attende."
+    },
+    "facts": {
+      "title": "ReClap Facts",
+      "description": "Des anecdotes et faits cachés sur chaque film — easter eggs, connexions, secrets de tournage."
+    },
+    "stats": {
+      "title": "Tes stats, vraiment",
+      "description": "Genres préférés, acteurs récurrents, années dorées — un tableau de bord qui te ressemble."
+    },
+    "tracker": {
+      "title": "Tracker complet",
+      "description": "Films, séries, acteurs, réalisateurs. Ton univers cinéma au même endroit."
+    }
+  },
+  "cta": {
+    "title": "Prêt à revoir ta façon de",
+    "titleHighlight": "vivre le cinéma ?",
+    "description": "Crée ton compte en 30 secondes. Pas de CB requise.",
+    "button": "Créer mon compte"
+  },
+  "footer": {
+    "privacy": "Confidentialité",
+    "terms": "CGU",
+    "contact": "Contact"
+  },
+  "film": {
+    "overview": "Synopsis",
+    "facts": "ReClap Facts",
+    "cast": "Casting",
+    "details": "Détails",
+    "rating": "Note",
+    "addToJournal": "Ajouter à mon journal",
+    "markWatched": "Vu",
+    "addToWatchlist": "À voir",
+    "director": "Réalisateur",
+    "runtime": "Durée",
+    "budget": "Budget",
+    "revenue": "Recettes",
+    "language": "Langue originale",
+    "genres": "Genres",
+    "noFacts": "Aucun fait disponible pour ce film.",
+    "similar": "Films similaires",
+    "backToSearch": "Retour"
+  },
+  "dashboard": {
+    "title": "Mon espace",
+    "journal": "Journal",
+    "watchlist": "À voir",
+    "stats": "Statistiques",
+    "watched": "Films vus",
+    "reviews": "Critiques",
+    "hours": "Heures de cinéma",
+    "topGenres": "Genres favoris",
+    "topActors": "Acteurs préférés",
+    "topDirectors": "Réalisateurs favoris",
+    "recentActivity": "Activité récente",
+    "noActivity": "Aucune activité pour l'instant. Commence à noter des films !",
+    "yearlyActivity": "Activité annuelle"
+  },
+  "search": {
+    "placeholder": "Rechercher un film, un acteur...",
+    "noResults": "Aucun résultat pour",
+    "results": "résultats"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "notFound": "Page introuvable",
+    "backHome": "Retour à l'accueil"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "discover": "Discover",
+    "films": "Films",
+    "actors": "Actors",
+    "community": "Community",
+    "login": "Sign in",
+    "join": "Join"
+  },
+  "hero": {
+    "badge": "The cinema tracker we deserved",
+    "title": "Your cinema,",
+    "titleHighlight": "reimagined",
+    "description": "Letterboxd was good. ReClap is better. Fast, elegant, and full of facts you'd never have found on your own.",
+    "cta": "Start for free",
+    "demo": "Watch the demo",
+    "social": "Join {count}k film lovers",
+    "free": "Free forever on the basic plan"
+  },
+  "trending": {
+    "title": "Trending this week",
+    "seeAll": "See all"
+  },
+  "features": {
+    "title": "Why ReClap?",
+    "subtitle": "We didn't just copy Letterboxd. We started from scratch.",
+    "fast": {
+      "title": "Blazing fast",
+      "description": "Instant navigation. Every interaction redesigned so nothing ever waits."
+    },
+    "facts": {
+      "title": "ReClap Facts",
+      "description": "Hidden trivia and facts about every film — easter eggs, connections, behind-the-scenes secrets."
+    },
+    "stats": {
+      "title": "Your real stats",
+      "description": "Favourite genres, recurring actors, golden years — a dashboard that actually looks like you."
+    },
+    "tracker": {
+      "title": "Full tracker",
+      "description": "Films, series, actors, directors. Your whole cinema world in one place."
+    }
+  },
+  "cta": {
+    "title": "Ready to rethink the way you",
+    "titleHighlight": "experience cinema?",
+    "description": "Create your account in 30 seconds. No credit card required.",
+    "button": "Create my account"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  },
+  "film": {
+    "overview": "Overview",
+    "facts": "ReClap Facts",
+    "cast": "Cast",
+    "details": "Details",
+    "rating": "Rating",
+    "addToJournal": "Add to journal",
+    "markWatched": "Watched",
+    "addToWatchlist": "Watchlist",
+    "director": "Director",
+    "runtime": "Runtime",
+    "budget": "Budget",
+    "revenue": "Revenue",
+    "language": "Original language",
+    "genres": "Genres",
+    "noFacts": "No facts available for this film.",
+    "similar": "Similar films",
+    "backToSearch": "Back"
+  },
+  "dashboard": {
+    "title": "My space",
+    "journal": "Journal",
+    "watchlist": "Watchlist",
+    "stats": "Statistics",
+    "watched": "Films watched",
+    "reviews": "Reviews",
+    "hours": "Cinema hours",
+    "topGenres": "Favourite genres",
+    "topActors": "Favourite actors",
+    "topDirectors": "Favourite directors",
+    "recentActivity": "Recent activity",
+    "noActivity": "No activity yet. Start rating some films!",
+    "yearlyActivity": "Yearly activity"
+  },
+  "search": {
+    "placeholder": "Search for a film, actor...",
+    "noResults": "No results for",
+    "results": "results"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "notFound": "Page not found",
+    "backHome": "Back to home"
+  }
+}
