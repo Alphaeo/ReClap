@@ -12,7 +12,10 @@ import {
   tmdbImage, formatRuntime, formatMoney, generateReclapFacts,
 } from "@/lib/tmdb";
 import { getFilmStatus } from "@/lib/actions";
+import { getFavoriteStatus } from "@/lib/list-actions";
 import { getSession } from "@/lib/session";
+import { FavoriteButton } from "@/components/favorite-button";
+import { AddToListButton } from "@/components/add-to-list-button";
 import { db } from "@/lib/db";
 import { watchedFilms } from "@/lib/db/schema";
 import { eq, and, isNotNull } from "drizzle-orm";
@@ -69,9 +72,10 @@ export default async function FilmPage({ params }: { params: Promise<{ locale: s
     notFound();
   }
 
-  const [session, filmStatus] = await Promise.all([
+  const [session, filmStatus, isFavorited] = await Promise.all([
     getSession(),
     getFilmStatus(movieId),
+    getFavoriteStatus("film", movieId),
   ]);
 
   // Fetch public reviews
@@ -169,6 +173,29 @@ export default async function FilmPage({ params }: { params: Promise<{ locale: s
                 isLoggedIn={!!session}
                 locale={l}
               />
+
+              <div className="flex items-center gap-3">
+                <FavoriteButton
+                  type="film"
+                  tmdbId={movieId}
+                  name={movie.title}
+                  imagePath={movie.poster_path}
+                  initialFavorited={isFavorited}
+                  isLoggedIn={!!session}
+                  locale={l}
+                />
+                <span className="text-xs text-muted-foreground">
+                  {l === "fr" ? "Ajouter aux favoris" : "Add to favorites"}
+                </span>
+                <div className="w-px h-4 bg-border" />
+                <AddToListButton
+                  tmdbId={movieId}
+                  title={movie.title}
+                  posterPath={movie.poster_path}
+                  isLoggedIn={!!session}
+                  locale={l}
+                />
+              </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                 {director && (

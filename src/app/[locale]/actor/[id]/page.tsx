@@ -7,6 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getPerson, getPersonMovieCredits, tmdbImage } from "@/lib/tmdb";
+import { getSession } from "@/lib/session";
+import { getFavoriteStatus } from "@/lib/list-actions";
+import { FavoriteButton } from "@/components/favorite-button";
 import { ArrowLeft, Calendar, MapPin, Film } from "lucide-react";
 
 type Locale = "fr" | "en";
@@ -36,6 +39,11 @@ export default async function ActorPage({ params }: { params: Promise<{ locale: 
   } catch {
     notFound();
   }
+
+  const [session, isFavorited] = await Promise.all([
+    getSession(),
+    getFavoriteStatus("actor", personId),
+  ]);
 
   const t = await getTranslations({ locale: l, namespace: "actor" });
   const photo = tmdbImage(person.profile_path, "w500");
@@ -78,7 +86,18 @@ export default async function ActorPage({ params }: { params: Promise<{ locale: 
 
           <div className="flex flex-col gap-3 flex-1">
             <div>
-              <h1 className="text-4xl font-bold mb-2">{person.name}</h1>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-4xl font-bold">{person.name}</h1>
+                <FavoriteButton
+                  type="actor"
+                  tmdbId={personId}
+                  name={person.name}
+                  imagePath={person.profile_path}
+                  initialFavorited={isFavorited}
+                  isLoggedIn={!!session}
+                  locale={l}
+                />
+              </div>
               <Badge variant="outline" className="border-primary/30 text-primary bg-primary/5">
                 {person.known_for_department}
               </Badge>
