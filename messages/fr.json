@@ -5,7 +5,10 @@
     "actors": "Acteurs",
     "community": "Communauté",
     "login": "Connexion",
-    "join": "Rejoindre"
+    "join": "Rejoindre",
+    "mySpace": "Mon espace",
+    "profile": "Profil",
+    "logout": "Déconnexion"
   },
   "hero": {
     "badge": "Le tracker cinéma qu'on méritait",
@@ -17,29 +20,14 @@
     "social": "Rejoins {count}k cinéphiles",
     "free": "Gratuit pour toujours sur le plan de base"
   },
-  "trending": {
-    "title": "Tendances cette semaine",
-    "seeAll": "Voir tout"
-  },
+  "trending": { "title": "Tendances cette semaine", "seeAll": "Voir tout" },
   "features": {
     "title": "Pourquoi ReClap ?",
     "subtitle": "On n'a pas juste copié Letterboxd. On a repris la feuille blanche.",
-    "fast": {
-      "title": "Ultra-rapide",
-      "description": "Navigation instantanée. On a repensé chaque interaction pour que rien ne t'attende."
-    },
-    "facts": {
-      "title": "ReClap Facts",
-      "description": "Des anecdotes et faits cachés sur chaque film — easter eggs, connexions, secrets de tournage."
-    },
-    "stats": {
-      "title": "Tes stats, vraiment",
-      "description": "Genres préférés, acteurs récurrents, années dorées — un tableau de bord qui te ressemble."
-    },
-    "tracker": {
-      "title": "Tracker complet",
-      "description": "Films, séries, acteurs, réalisateurs. Ton univers cinéma au même endroit."
-    }
+    "fast": { "title": "Ultra-rapide", "description": "Navigation instantanée. On a repensé chaque interaction pour que rien ne t'attende." },
+    "facts": { "title": "ReClap Facts", "description": "Des anecdotes et faits cachés sur chaque film — easter eggs, connexions, secrets de tournage." },
+    "stats": { "title": "Tes stats, vraiment", "description": "Genres préférés, acteurs récurrents, années dorées — un tableau de bord qui te ressemble." },
+    "tracker": { "title": "Tracker complet", "description": "Films, séries, acteurs, réalisateurs. Ton univers cinéma au même endroit." }
   },
   "cta": {
     "title": "Prêt à revoir ta façon de",
@@ -47,10 +35,25 @@
     "description": "Crée ton compte en 30 secondes. Pas de CB requise.",
     "button": "Créer mon compte"
   },
-  "footer": {
-    "privacy": "Confidentialité",
-    "terms": "CGU",
-    "contact": "Contact"
+  "footer": { "privacy": "Confidentialité", "terms": "CGU", "contact": "Contact" },
+  "auth": {
+    "signin": "Connexion",
+    "signup": "Inscription",
+    "email": "Email",
+    "password": "Mot de passe",
+    "name": "Nom complet",
+    "signinBtn": "Se connecter",
+    "signupBtn": "Créer mon compte",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "signinLink": "Se connecter",
+    "signupLink": "S'inscrire",
+    "emailPlaceholder": "ton@email.com",
+    "passwordPlaceholder": "••••••••",
+    "namePlaceholder": "Prénom Nom",
+    "errorInvalid": "Email ou mot de passe incorrect",
+    "errorExists": "Un compte existe déjà avec cet email",
+    "errorGeneric": "Une erreur est survenue, réessaie"
   },
   "film": {
     "overview": "Synopsis",
@@ -58,9 +61,10 @@
     "cast": "Casting",
     "details": "Détails",
     "rating": "Note",
-    "addToJournal": "Ajouter à mon journal",
     "markWatched": "Vu",
+    "removeWatched": "Retirer de vu",
     "addToWatchlist": "À voir",
+    "removeFromWatchlist": "Retirer de la liste",
     "director": "Réalisateur",
     "runtime": "Durée",
     "budget": "Budget",
@@ -69,7 +73,15 @@
     "genres": "Genres",
     "noFacts": "Aucun fait disponible pour ce film.",
     "similar": "Films similaires",
-    "backToSearch": "Retour"
+    "backToSearch": "Retour",
+    "reviews": "Critiques",
+    "noReviews": "Aucune critique pour l'instant.",
+    "writeReview": "Écrire une critique",
+    "yourReview": "Ta critique",
+    "reviewPlaceholder": "Qu'as-tu pensé de ce film ?",
+    "submitReview": "Publier",
+    "rateFilm": "Note ce film",
+    "loginToReview": "Connecte-toi pour laisser une critique"
   },
   "dashboard": {
     "title": "Mon espace",
@@ -84,12 +96,33 @@
     "topDirectors": "Réalisateurs favoris",
     "recentActivity": "Activité récente",
     "noActivity": "Aucune activité pour l'instant. Commence à noter des films !",
-    "yearlyActivity": "Activité annuelle"
+    "yearlyActivity": "Activité annuelle",
+    "noWatchlist": "Ta liste est vide. Ajoute des films à voir !"
+  },
+  "actor": {
+    "born": "Né(e) le",
+    "birthplace": "Lieu de naissance",
+    "died": "Décédé(e) le",
+    "knownFor": "Connu pour",
+    "filmography": "Filmographie",
+    "biography": "Biographie",
+    "noBio": "Aucune biographie disponible.",
+    "asCharacter": "en tant que",
+    "backToFilm": "Retour"
   },
   "search": {
     "placeholder": "Rechercher un film, un acteur...",
     "noResults": "Aucun résultat pour",
-    "results": "résultats"
+    "results": "résultats",
+    "films": "Films",
+    "people": "Personnes",
+    "searchTitle": "Recherche"
+  },
+  "profile": {
+    "watched": "films vus",
+    "reviews": "critiques",
+    "memberSince": "Membre depuis",
+    "noActivity": "Aucune activité publique."
   },
   "common": {
     "loading": "Chargement...",

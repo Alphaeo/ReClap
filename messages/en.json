@@ -5,7 +5,10 @@
     "actors": "Actors",
     "community": "Community",
     "login": "Sign in",
-    "join": "Join"
+    "join": "Join",
+    "mySpace": "My space",
+    "profile": "Profile",
+    "logout": "Sign out"
   },
   "hero": {
     "badge": "The cinema tracker we deserved",
@@ -17,29 +20,14 @@
     "social": "Join {count}k film lovers",
     "free": "Free forever on the basic plan"
   },
-  "trending": {
-    "title": "Trending this week",
-    "seeAll": "See all"
-  },
+  "trending": { "title": "Trending this week", "seeAll": "See all" },
   "features": {
     "title": "Why ReClap?",
     "subtitle": "We didn't just copy Letterboxd. We started from scratch.",
-    "fast": {
-      "title": "Blazing fast",
-      "description": "Instant navigation. Every interaction redesigned so nothing ever waits."
-    },
-    "facts": {
-      "title": "ReClap Facts",
-      "description": "Hidden trivia and facts about every film — easter eggs, connections, behind-the-scenes secrets."
-    },
-    "stats": {
-      "title": "Your real stats",
-      "description": "Favourite genres, recurring actors, golden years — a dashboard that actually looks like you."
-    },
-    "tracker": {
-      "title": "Full tracker",
-      "description": "Films, series, actors, directors. Your whole cinema world in one place."
-    }
+    "fast": { "title": "Blazing fast", "description": "Instant navigation. Every interaction redesigned so nothing ever waits." },
+    "facts": { "title": "ReClap Facts", "description": "Hidden trivia and facts about every film — easter eggs, connections, behind-the-scenes secrets." },
+    "stats": { "title": "Your real stats", "description": "Favourite genres, recurring actors, golden years — a dashboard that actually looks like you." },
+    "tracker": { "title": "Full tracker", "description": "Films, series, actors, directors. Your whole cinema world in one place." }
   },
   "cta": {
     "title": "Ready to rethink the way you",
@@ -47,10 +35,25 @@
     "description": "Create your account in 30 seconds. No credit card required.",
     "button": "Create my account"
   },
-  "footer": {
-    "privacy": "Privacy",
-    "terms": "Terms",
-    "contact": "Contact"
+  "footer": { "privacy": "Privacy", "terms": "Terms", "contact": "Contact" },
+  "auth": {
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full name",
+    "signinBtn": "Sign in",
+    "signupBtn": "Create account",
+    "noAccount": "No account yet?",
+    "hasAccount": "Already have an account?",
+    "signinLink": "Sign in",
+    "signupLink": "Sign up",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "namePlaceholder": "First Last",
+    "errorInvalid": "Invalid email or password",
+    "errorExists": "An account already exists with this email",
+    "errorGeneric": "Something went wrong, please try again"
   },
   "film": {
     "overview": "Overview",
@@ -58,9 +61,10 @@
     "cast": "Cast",
     "details": "Details",
     "rating": "Rating",
-    "addToJournal": "Add to journal",
     "markWatched": "Watched",
+    "removeWatched": "Remove from watched",
     "addToWatchlist": "Watchlist",
+    "removeFromWatchlist": "Remove from list",
     "director": "Director",
     "runtime": "Runtime",
     "budget": "Budget",
@@ -69,7 +73,15 @@
     "genres": "Genres",
     "noFacts": "No facts available for this film.",
     "similar": "Similar films",
-    "backToSearch": "Back"
+    "backToSearch": "Back",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet.",
+    "writeReview": "Write a review",
+    "yourReview": "Your review",
+    "reviewPlaceholder": "What did you think of this film?",
+    "submitReview": "Publish",
+    "rateFilm": "Rate this film",
+    "loginToReview": "Sign in to leave a review"
   },
   "dashboard": {
     "title": "My space",
@@ -84,12 +96,33 @@
     "topDirectors": "Favourite directors",
     "recentActivity": "Recent activity",
     "noActivity": "No activity yet. Start rating some films!",
-    "yearlyActivity": "Yearly activity"
+    "yearlyActivity": "Yearly activity",
+    "noWatchlist": "Your list is empty. Add films to watch!"
+  },
+  "actor": {
+    "born": "Born",
+    "birthplace": "Birthplace",
+    "died": "Died",
+    "knownFor": "Known for",
+    "filmography": "Filmography",
+    "biography": "Biography",
+    "noBio": "No biography available.",
+    "asCharacter": "as",
+    "backToFilm": "Back"
   },
   "search": {
     "placeholder": "Search for a film, actor...",
     "noResults": "No results for",
-    "results": "results"
+    "results": "results",
+    "films": "Films",
+    "people": "People",
+    "searchTitle": "Search"
+  },
+  "profile": {
+    "watched": "films watched",
+    "reviews": "reviews",
+    "memberSince": "Member since",
+    "noActivity": "No public activity."
   },
   "common": {
     "loading": "Loading...",

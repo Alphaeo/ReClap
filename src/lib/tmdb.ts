@@ -131,6 +131,57 @@ export async function searchMovies(query: string, locale: "fr" | "en" = "fr"): P
   return tmdbFetch<TmdbSearchResult>("/search/movie", { query, language: lang });
 }
 
+export interface TmdbPerson {
+  id: number;
+  name: string;
+  biography: string;
+  birthday: string | null;
+  deathday: string | null;
+  place_of_birth: string | null;
+  profile_path: string | null;
+  known_for_department: string;
+  popularity: number;
+  gender: number;
+  also_known_as: string[];
+}
+
+export interface TmdbPersonCredits {
+  cast: {
+    id: number;
+    title: string;
+    character: string;
+    poster_path: string | null;
+    release_date: string;
+    vote_average: number;
+    popularity: number;
+  }[];
+  crew: {
+    id: number;
+    title: string;
+    job: string;
+    department: string;
+    poster_path: string | null;
+    release_date: string;
+  }[];
+}
+
+export async function getPerson(id: number, locale: "fr" | "en" = "fr"): Promise<TmdbPerson> {
+  const lang = locale === "fr" ? "fr-FR" : "en-US";
+  return tmdbFetch<TmdbPerson>(`/person/${id}`, { language: lang });
+}
+
+export async function getPersonMovieCredits(id: number, locale: "fr" | "en" = "fr"): Promise<TmdbPersonCredits> {
+  const lang = locale === "fr" ? "fr-FR" : "en-US";
+  return tmdbFetch<TmdbPersonCredits>(`/person/${id}/movie_credits`, { language: lang });
+}
+
+export async function searchPeople(query: string, locale: "fr" | "en" = "fr") {
+  const lang = locale === "fr" ? "fr-FR" : "en-US";
+  return tmdbFetch<{ results: { id: number; name: string; profile_path: string | null; known_for_department: string; popularity: number }[] }>(
+    "/search/person", { query, language: lang }
+  );
+}
+
 export function generateReclapFacts(movie: TmdbMovie, keywords: TmdbKeywords, credits: TmdbCredits): string[] {
   const facts: string[] = [];
   const director = credits.crew.find((c) => c.job === "Director");

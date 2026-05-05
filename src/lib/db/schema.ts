@@ -54,6 +54,9 @@ export const watchedFilms = pgTable("watched_films", {
   posterPath: text("poster_path"),
   rating: real("rating"),
   review: text("review"),
+  runtime: integer("runtime"),
+  genres: text("genres"), // JSON: string[]
+  releaseYear: integer("release_year"),
   watchedAt: timestamp("watched_at").notNull().defaultNow(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });

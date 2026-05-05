@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clapperboard, Zap, Star, TrendingUp, Film, Users, ChevronRight, Play } from "lucide-react";
 import { getTrending, tmdbImage } from "@/lib/tmdb";
+import { NavBar } from "@/components/navbar";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -19,35 +20,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-function NavBar({ locale }: { locale: Locale }) {
-  const t = useTranslations("nav");
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-md bg-background/80">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href={`/${locale}`} className="flex items-center gap-2">
-          <Clapperboard className="w-6 h-6 text-primary" />
-          <span className="text-xl font-bold tracking-tight">ReClap</span>
-        </Link>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-          <a href="#" className="hover:text-foreground transition-colors">{t("discover")}</a>
-          <a href="#" className="hover:text-foreground transition-colors">{t("films")}</a>
-          <a href="#" className="hover:text-foreground transition-colors">{t("actors")}</a>
-          <a href="#" className="hover:text-foreground transition-colors">{t("community")}</a>
-        </nav>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 text-xs border border-border/50 rounded-md overflow-hidden">
-            <Link href="/fr" className={`px-2 py-1 transition-colors ${locale === "fr" ? "bg-primary text-primary-foreground" : "hover:bg-white/5"}`}>FR</Link>
-            <Link href="/en" className={`px-2 py-1 transition-colors ${locale === "en" ? "bg-primary text-primary-foreground" : "hover:bg-white/5"}`}>EN</Link>
-          </div>
-          <Button variant="ghost" size="sm">{t("login")}</Button>
-          <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground glow-red">
-            {t("join")}
-          </Button>
-        </div>
-      </div>
-    </header>
-  );
-}
 
 function StarRating({ rating }: { rating: number }) {
   const filled = Math.round(rating / 2);
